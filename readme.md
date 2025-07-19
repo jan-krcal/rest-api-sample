@@ -56,7 +56,7 @@ composer install
 docker-compose up --build
 ```
 
-3. **Check and run migrations:**
+4. **Check and run migrations:**
 
 ```bash
 php bin/console.php migrations:status
@@ -121,10 +121,6 @@ php vendor/bin/tester tests/<filename>.php
 | PUT    | `/articles/{id}`   | Update an article              | `title` (optional), `content` (optional) |
 
 ---
-
-> **Note:**  
-> In the code, there is a likely typo where `setTitle` is called instead of `setContent` when updating article content.
-
 
 ## 🐘 Example: Register a new user with PHP cURL (Docker environment)
 
