@@ -63,7 +63,7 @@ final class ArticleService extends BaseService
         }
 
         if (isset($data['content']) && $data['content']) {
-            $article->setTitle($data['content']);
+            $article->setContent($data['content']);
         }
 
         $article = $this->articleManager->update($article);
