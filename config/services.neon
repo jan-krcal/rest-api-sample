@@ -1,0 +1,7 @@
+services:
+	- App\Core\RouterFactory::createRouter
+	- App\Model\Managers\ArticleManager
+	- App\Model\Managers\UserManager
+	- App\Model\Services\ArticleService
+	- App\Model\Services\UserService
+	- App\Model\Services\AuthService

@@ -1,0 +1,11 @@
+parameters:
+	level: 5
+
+	paths:
+		- app
+		- tests
+
+includes:
+	- vendor/phpstan/phpstan/conf/bleedingEdge.neon
+	- vendor/phpstan/phpstan-nette/extension.neon
+	- vendor/phpstan/phpstan-doctrine/extension.neon
