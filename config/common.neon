@@ -1,0 +1,47 @@
+parameters:
+
+
+application:
+	errorPresenter:
+		4xx: Error:Error4xx
+		5xx: Error:Error5xx
+	mapping: App\Presentation\*\**Presenter
+
+extensions:
+	nettrine.dbal: Nettrine\DBAL\DI\DbalExtension
+	nettrine.orm: Nettrine\ORM\DI\OrmExtension
+	nettrine.migrations: Nettrine\Migrations\DI\MigrationsExtension
+	console: Contributte\Console\DI\ConsoleExtension(%consoleMode%)
+
+nettrine.dbal:
+	debug:
+		panel: %debugMode%
+
+	connections:
+		default:
+			driver: mysqli
+			host: db
+			port: 3306
+			user: user
+			password: userpasswd
+			dbname: main
+
+nettrine.orm:
+	managers:
+		default:
+			connection: default
+			mapping:
+				App:
+					directories: [%appDir%/Model]
+					namespace: App\Model
+
+nettrine.migrations:
+	table: doctrine_migrations
+	column: version
+	directories:
+		Migrations: %appDir%/../migrations
+
+di:
+	export:
+		parameters: no
+		tags: no
