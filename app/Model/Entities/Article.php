@@ -104,7 +104,7 @@ class Article implements JsonSerializable
     {
         return [
             'id' => $this->getId(),
-            'author_id' => $this->getAuthor()?->getId(),
+            'author' => $this->getAuthor()?->getName(),
             'title' => $this->getTitle(),
             'content' => $this->getContent(),
             'created_at' => $this->getCreatedAt(),

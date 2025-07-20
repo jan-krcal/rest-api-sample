@@ -16,6 +16,6 @@ final class Error4xxPresenter extends Presenter
 
     public function actionDefault(Nette\Application\BadRequestException $exception): void
     {
-        $this->sendError($exception->getMessage(), $exception->getCode());
+        $this->sendError('404 Not found', $exception->getCode());
     }
 }

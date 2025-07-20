@@ -28,9 +28,12 @@ final class AdminTest extends TestCase
 
     private string $token;
 
+    private string $time;
+
     public function setUp(): void
     {
         $this->baseUrl = new UrlScript('http://localhost:8000');
+        $this->time = (string) time();
 
         $configurator = new Configurator();
         $configurator->setTempDirectory(__DIR__ . '/../temp');
@@ -67,7 +70,7 @@ final class AdminTest extends TestCase
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_POST => true,
             CURLOPT_POSTFIELDS => [
-                'email' => 'admin@example.com',
+                'email' => $this->time . 'admin@example.com',
                 'password' => 'password',
                 'role' => 'admin',
                 'name' => 'Tester',
@@ -90,7 +93,7 @@ final class AdminTest extends TestCase
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_POST => true,
             CURLOPT_POSTFIELDS => [
-                'email' => 'admin@example.com',
+                'email' => $this->time . 'admin@example.com',
                 'password' => 'password',
             ],
         ]);

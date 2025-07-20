@@ -39,10 +39,12 @@ final class UsersPresenter extends BasePresenter
                 break;
 
             case 'PUT':
+                $this->checkId($id);
                 $this->processPut($id);
                 break;
 
             case 'DELETE':
+                $this->checkId($id);
                 $this->processDelete($id);
                 break;
 

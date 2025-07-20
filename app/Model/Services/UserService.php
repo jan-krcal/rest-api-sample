@@ -77,10 +77,6 @@ final class UserService extends BaseService
             $user->setName($data['name']);
         }
 
-        if (isset($data['password']) && $data['password']) {
-            $user->setPasswordHash($this->passwords->hash($data['password']));
-        }
-
         if (isset($data['role']) && $data['role'] && UserRole::tryFrom($data['role']) !== null) {
             $user->setRole(UserRole::from($data['role']));
         }
