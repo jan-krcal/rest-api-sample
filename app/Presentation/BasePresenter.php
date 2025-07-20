@@ -7,6 +7,7 @@ namespace App\Presentation;
 use App\Model\Entities\User;
 use App\Model\Services\AuthService;
 use App\Traits\ResponseTrait;
+use Nette\Application\BadRequestException;
 use Nette\Application\UI\Presenter;
 use Nette\Http\IResponse;
 
@@ -32,6 +33,13 @@ abstract class BasePresenter extends Presenter
     protected function getCurrentUser(): User
     {
         return $this->currentUser;
+    }
+
+    protected function checkId(?int $id): void
+    {
+        if ($id === null) {
+            throw new BadRequestException();
+        }
     }
 
     public function injectAuthService(

@@ -29,10 +29,12 @@ final class ArticlesPresenter extends BasePresenter
                 break;
 
             case 'PUT':
+                $this->checkId($id);
                 $this->processPut($id);
                 break;
 
             case 'DELETE':
+                $this->checkId($id);
                 $this->processDelete($id);
                 break;
 
@@ -57,18 +59,18 @@ final class ArticlesPresenter extends BasePresenter
         }
 
         if (!$this->getCurrentUser()->getRole()->canEditArticle($this->getCurrentUser(), $article)) {
-            $this->sendError('Unauthorized to update this article', IResponse::S401_Unauthorized);
+            $this->sendError('Unauthorized to delete this article', IResponse::S401_Unauthorized);
         }
     }
 
     private function processPut(?int $id): void
     {
-        $article = $this->articleService->update($this->getHttpRequest()->getRawBody(), $id);
-
-        if (!$this->getCurrentUser()->getRole()->canEditArticle($this->getCurrentUser(), $article)) {
+        $article = $this->articleService->get($id);
+        if ($article && !$this->getCurrentUser()->getRole()->canEditArticle($this->getCurrentUser(), $article)) {
             $this->sendError('Unauthorized to update this article', IResponse::S401_Unauthorized);
         }
 
+        $article = $this->articleService->update($this->getHttpRequest()->getRawBody(), $id);
         if ($article) {
             $this->sendJsonResponse($article);
         } else {

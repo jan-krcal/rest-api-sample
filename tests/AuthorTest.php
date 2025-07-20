@@ -28,9 +28,12 @@ final class AuthorTest extends TestCase
 
     private string $token;
 
+    private string $time;
+
     public function setUp(): void
     {
         $this->baseUrl = new UrlScript('http://localhost:8000');
+        $this->time = (string) time();
 
         $configurator = new Configurator();
         $configurator->setTempDirectory(__DIR__ . '/../temp');
@@ -68,7 +71,7 @@ final class AuthorTest extends TestCase
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_POST => true,
             CURLOPT_POSTFIELDS => [
-                'email' => 'author@example.com',
+                'email' => $this->time . 'author@example.com',
                 'password' => 'password',
                 'role' => 'author',
                 'name' => 'Tester',
@@ -91,7 +94,7 @@ final class AuthorTest extends TestCase
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_POST => true,
             CURLOPT_POSTFIELDS => [
-                'email' => 'author@example.com',
+                'email' => $this->time . 'author@example.com',
                 'password' => 'password',
             ],
         ]);

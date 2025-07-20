@@ -88,6 +88,20 @@ php vendor/bin/tester tests/<filename>.php
 | `tests/ReaderTest.php`     | Nette Tester      | Checks registration, login, prevents access to users, prevents article creation, reading articles |
 | `tests/BadRequestTest.php` | Nette Tester      | Checks 404 response for non-existing URLs                                                      |
 
+## 🧹 Code Quality and Static Analysis
+
+```bash
+php vendor/bin/phpcs --standard=PSR12 <path>
+```
+
+```bash
+php vendor/bin/phpcbf  --standard=PSR12 <path>
+```
+
+```bash
+php vendor/bin/phpstan analyse --memory-limit=512M
+```
+
 ## 📚 API Endpoints with Request Body Fields
 
 ### Authentication
@@ -194,30 +208,41 @@ $token = $data['token'];
 echo "User logged in, token: $token\n";
 ```
 
-This example shows how to fetch the list of articles by sending a GET request to `/articles/` with a Bearer token authorization. It assumes the app is running inside Docker as described in the setup.
+This example shows how to create article by sending a POST request to `/articles/` with a Bearer token authorization. It assumes the app is running inside Docker as described in the setup.
 
 ```php
 <?php
 $auth = 'Authorization: Bearer ' . $token; // Auth token
 
-$ch = curl_init('http://localhost:8000/articles/');
+$auth = 'Authorization: Bearer ' . $this->token;
 
+$ch = curl_init((string) $this->baseUrl->withPath('/articles/'));
 curl_setopt_array($ch, [
     CURLOPT_RETURNTRANSFER => true,
+    CURLOPT_POST => true,
+    CURLOPT_POSTFIELDS => [
+        'title' => 'Title article',
+        'content' => 'Content article',
+    ],
     CURLOPT_HTTPHEADER => [
         $auth,
     ],
 ]);
-
-$response = curl_exec($ch); // JSON with list of articles
+$response = curl_exec($ch);
 $code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 curl_close($ch);
 
-if ($code !== 200) {
+if ($code !== 201) {
     die("Unexpected HTTP status code: $code");
 }
 
-echo "Articles fetched successfully.\n";
+if (!isset($data['id'])) {
+    die("Response JSON missing 'id'");
+}
+
+$articleId = (int) $data['id'];
+
+echo "Article created successfully with ID: $articleId\n";
 ```
 
 ## 📄 License
